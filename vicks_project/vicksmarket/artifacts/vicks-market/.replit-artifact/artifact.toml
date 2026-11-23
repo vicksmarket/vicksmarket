@@ -1,0 +1,25 @@
+kind = "web"
+previewPath = "/"
+title = "Vicks Market"
+version = "1.0.0"
+id = "artifacts/vicks-market"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 19437
+
+[services.development]
+run = "pnpm --filter @workspace/vicks-market run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/vicks-market", "run", "build" ]
+run = "pnpm --filter @workspace/vicks-market run start"
+
+[services.env]
+PORT = "19437"

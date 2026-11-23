@@ -1,0 +1,12 @@
+
+"use client";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+
+export default function SortRedirect() {
+  const router = useRouter();
+  useEffect(() => {
+    router.push('/');
+  }, [router]);
+  return <div className="p-8 text-center">جاري ترتيب المنتجات...</div>;
+}

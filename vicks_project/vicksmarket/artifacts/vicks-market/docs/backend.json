@@ -1,0 +1,88 @@
+
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "description": "A product available in Vicks Market",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "price": { "type": "number" },
+        "image": { "type": "string" },
+        "videoUrl": { "type": "string" },
+        "category": { "type": "string" },
+        "seller": { "type": "string" },
+        "sellerId": { "type": "string" },
+        "rating": { "type": "number", "default": 5 },
+        "ratingsCount": { "type": "number", "default": 0 },
+        "discount": { "type": "string" },
+        "isOriginal": { "type": "boolean" },
+        "description": { "type": "string" },
+        "isReported": { "type": "boolean" },
+        "reportReason": { "type": "string" },
+        "views": { "type": "number", "default": 0 },
+        "location": { "type": "string" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "price", "image", "seller", "sellerId"]
+    },
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "User account information with roles and protected data",
+      "type": "object",
+      "properties": {
+        "fullName": { "type": "string" },
+        "shopName": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "phone": { "type": "string" },
+        "telegram": { "type": "string" },
+        "location": { "type": "string" },
+        "role": { "type": "string", "enum": ["customer", "merchant", "owner"] },
+        "subscriptionPlan": { "type": "string", "enum": ["free", "silver", "gold"], "default": "free" },
+        "status": { "type": "string", "enum": ["active", "suspended", "banned"] },
+        "points": { "type": "number" },
+        "unique_id": { "type": "string" },
+        "isVerified": { "type": "boolean" },
+        "verificationType": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "coverURL": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "likedProducts": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["fullName", "email", "role"]
+    },
+    "Story": {
+      "title": "Story",
+      "description": "Short-lived marketing story",
+      "type": "object",
+      "properties": {
+        "sellerId": { "type": "string" },
+        "sellerName": { "type": "string" },
+        "sellerImage": { "type": "string" },
+        "image": { "type": "string" },
+        "productId": { "type": "string" },
+        "isGold": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "expiresAt": { "type": "number" }
+      }
+    }
+  },
+  "auth": {
+    "providers": ["google.com", "facebook.com", "password"]
+  },
+  "firestore": {
+    "/products/{productId}": {
+      "schema": "#/entities/Product",
+      "description": "Public products database"
+    },
+    "/users/{userId}": {
+      "schema": "#/entities/UserProfile",
+      "description": "User profiles"
+    },
+    "/stories/{storyId}": {
+      "schema": "#/entities/Story",
+      "description": "Active stories"
+    }
+  }
+}

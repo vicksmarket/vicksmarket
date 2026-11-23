@@ -1,0 +1,63 @@
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // وظائف الحماية المركزية - السيادة المطلقة لـ vicksmarket@gmail.com
+    function isSignedIn() { return request.auth != null; }
+    function isVerified() { return isSignedIn() && request.auth.token.email_verified == true; }
+    function isAdmin() { 
+      return isSignedIn() && 
+      (request.auth.token.email == "vicksmarket@gmail.com"); 
+    }
+    function isOwner(userId) { return isSignedIn() && request.auth.uid == userId; }
+
+    // قواعد المستخدمين
+    match /users/{userId} {
+      allow read: if isSignedIn();
+      allow write: if isOwner(userId) || isAdmin();
+    }
+
+    // قواعد المنتجات
+    match /products/{productId} {
+      allow read: if true;
+      allow create: if isSignedIn() || isAdmin(); 
+      allow update: if isSignedIn() && (resource.data.sellerId == request.auth.uid || isAdmin());
+      allow delete: if isAdmin() || (isSignedIn() && resource.data.sellerId == request.auth.uid);
+      
+      match /comments/{commentId} {
+        allow read: if true;
+        allow create: if true; 
+        allow delete: if isAdmin() || (isSignedIn() && request.auth.uid == resource.data.userId);
+      }
+      
+      match /ratings/{userId} {
+        allow read: if true;
+        allow write: if isOwner(userId) || isAdmin();
+      }
+    }
+
+    match /stories/{storyId} {
+      allow read: if true;
+      allow write: if isSignedIn() || isAdmin();
+    }
+
+    match /owner_chats/{userId} {
+      allow read, write: if isOwner(userId) || isAdmin();
+      match /messages/{msgId} {
+        allow read, write: if isOwner(userId) || isAdmin();
+      }
+    }
+
+    match /conversations/{convId} {
+      allow read, write: if isSignedIn();
+      match /messages/{msgId} {
+        allow read, write: if isSignedIn();
+      }
+    }
+
+    match /temp_verifications/{phone} {
+      allow read, write: if true;
+    }
+  }
+}
+    

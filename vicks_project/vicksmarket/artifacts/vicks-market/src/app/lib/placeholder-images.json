@@ -1,0 +1,22 @@
+{
+  "placeholderImages": [
+    {
+      "id": "vicks-logo",
+      "description": "Vicks Market Official Logo",
+      "imageUrl": "https://picsum.photos/seed/vicks/200/200",
+      "imageHint": "market logo"
+    },
+    {
+      "id": "gold-badge",
+      "description": "Golden Merchant Badge",
+      "imageUrl": "https://picsum.photos/seed/gold/100/100",
+      "imageHint": "gold badge"
+    },
+    {
+      "id": "default-product",
+      "description": "Default Product Placeholder",
+      "imageUrl": "https://picsum.photos/seed/product/600/600",
+      "imageHint": "product item"
+    }
+  ]
+}

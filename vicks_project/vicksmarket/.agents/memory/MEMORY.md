@@ -1,0 +1,1 @@
+- [Firebase→Supabase migration](firebase-supabase-migration.md) — admin RLS requires is_admin() helper; polling replaces Firestore onSnapshot; server createClient() is async.

@@ -1,0 +1,11 @@
+import { createClient } from "@supabase/supabase-js";
+
+const url  = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+const key  = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
+
+if (!url || !key) {
+  console.warn("[supabase] SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY not set — DB calls will fail");
+}
+
+/** Service-role client — bypasses RLS, use only on server */
+export const supabase = createClient(url, key, { auth: { persistSession: false } });
